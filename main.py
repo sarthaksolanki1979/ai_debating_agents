@@ -15,17 +15,26 @@ def display_agent(agent):
         print(f"Round {round_number}: {argument}")
 
 topic = input("Enter Topic Name:")
+rounds = int(input("Enter the number of Rounds:"))
 
 agent1 = create_agent("AGENT 1", "SUPPORT")
 agent2 = create_agent("AGENT 2", "OPPOSE")
 
-add_argument(agent1, "AI proceeds to help mankind to improve their work and efficiency.")
-add_argument(agent2, "Too much dependence on AI can weaken thinking and make humans over-dependent.")
+for round_number in range(rounds):
+    add_argument(
+        agent1, "AI can improve productivity and help people solve complex problems."
+    )
+
+    add_argument(
+        agent2, "Overdependence on AI can weaken independent thinking and judgment."
+    )
+
 
 print("\n" + "=" * 50)
 print("      AI Debating Agents")
 print("=" * 50)
 print(f"Topic Name: {topic}")
+print(f"Number of Rounds: {rounds}")
 
 display_agent(agent1)
 display_agent(agent2)
