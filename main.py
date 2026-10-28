@@ -8,14 +8,25 @@ def create_agent(name, role):
 def add_argument(agent, argument):
     agent["argument"].append(argument)
 
-def display_agent(agent):
-    print(f"{agent['name']} - {agent['role']}")
+def display_debate(agent1, agent2):
+    for round_number, argument1 in enumerate(agent1['argument'], start=1):
+        argument2 = agent2['argument'][round_number - 1]
 
-    for round_number, argument in enumerate(agent["argument"], start=1):
-        print(f"Round {round_number}: {argument}")
+        print(f"\n Round: {round_number}")
+        print(f"{agent1['name']} - {agent1['role']}: {argument1}")
+        print(f"{agent2['name']} - {agent2['role']}: {argument2}")
 
-topic = input("Enter Topic Name:")
-rounds = int(input("Enter the number of Rounds:"))
+topic = input("Enter Topic Name:") #Eg: Does AI improve Human productivity ?
+
+while True:
+    try:
+        rounds = int(input("Enter the number of Rounds:"))
+        if rounds > 0:
+            break
+        else:
+            print("Please enter at least 1 round!")
+    except ValueError:
+        print("Please enter a valid whole number!")
 
 agent1 = create_agent("AGENT 1", "SUPPORT")
 agent2 = create_agent("AGENT 2", "OPPOSE")
@@ -36,7 +47,6 @@ print("=" * 50)
 print(f"Topic Name: {topic}")
 print(f"Number of Rounds: {rounds}")
 
-display_agent(agent1)
-display_agent(agent2)
+display_debate(agent1, agent2)
 
 print("=" * 50)
