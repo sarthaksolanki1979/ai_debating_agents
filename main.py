@@ -39,12 +39,16 @@ agent2_arguments = ["Overdependence on AI can weaken thinking ability.",
                     "AI can sometimes produce incorrect or misleading results.",
                     "Excess use of AI can make a person lazy."]
 
-for round_number in range(1, rounds + 1):
-    argument1 = agent1_arguments[round_number - 1]
-    argument2 = agent2_arguments[round_number - 1]
+if rounds > len(agent1_arguments):
+    print("Rounds limit exceeded, Please enter 3 or fewer!")
+else:
+    for round_number in range(1, rounds + 1):
+        argument1 = agent1_arguments[round_number - 1]
+        argument2 = agent2_arguments[round_number - 1]
 
-    add_argument(agent1, argument1)
-    add_argument(agent2, argument2)
+
+        add_argument(agent1, argument1)
+        add_argument(agent2, argument2)
 
 print("\n" + "=" * 50)
 print("      AI Debating Agents")
