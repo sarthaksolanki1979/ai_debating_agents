@@ -31,15 +31,20 @@ while True:
 agent1 = create_agent("AGENT 1", "SUPPORT")
 agent2 = create_agent("AGENT 2", "OPPOSE")
 
-for round_number in range(rounds):
-    add_argument(
-        agent1, "AI can improve productivity and help people solve complex problems."
-    )
+agent1_arguments = ["AI improves efficiency of Human beings.",
+                    "AI solves complex problems.",
+                    "AI can assist people in learning new skills."]
 
-    add_argument(
-        agent2, "Overdependence on AI can weaken independent thinking and judgment."
-    )
+agent2_arguments = ["Overdependence on AI can weaken thinking ability.",
+                    "AI can sometimes produce incorrect or misleading results.",
+                    "Excess use of AI can make a person lazy."]
 
+for round_number in range(1, rounds + 1):
+    argument1 = agent1_arguments[round_number - 1]
+    argument2 = agent2_arguments[round_number - 1]
+
+    add_argument(agent1, argument1)
+    add_argument(agent2, argument2)
 
 print("\n" + "=" * 50)
 print("      AI Debating Agents")
