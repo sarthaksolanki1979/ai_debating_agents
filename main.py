@@ -16,7 +16,13 @@ def display_debate(agent1, agent2):
         print(f"{agent1['name']} - {agent1['role']}: {argument1}")
         print(f"{agent2['name']} - {agent2['role']}: {argument2}")
 
-topic = input("Enter Topic Name:") #Eg: Does AI improve Human productivity ?
+while True:
+    topic = input("Enter the Topic name:") #Eg: Does AI improve Human productivity ?
+    if topic:
+        break
+    else:
+        print("Enter a valid topic name!")
+
 
 while True:
     try:
