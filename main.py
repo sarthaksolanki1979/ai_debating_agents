@@ -16,24 +16,6 @@ def display_debate(agent1, agent2):
         print(f"{agent1['name']} - {agent1['role']}: {argument1}")
         print(f"{agent2['name']} - {agent2['role']}: {argument2}")
 
-while True:
-    topic = input("Enter the Topic name:") #Eg: Does AI improve Human productivity ?
-    if topic:
-        break
-    else:
-        print("Enter a valid topic name!")
-
-
-while True:
-    try:
-        rounds = int(input("Enter the number of Rounds:"))
-        if rounds > 0:
-            break
-        else:
-            print("Please enter at least 1 round!")
-    except ValueError:
-        print("Please enter a valid whole number!")
-
 agent1 = create_agent("AGENT 1", "SUPPORT")
 agent2 = create_agent("AGENT 2", "OPPOSE")
 
@@ -45,16 +27,31 @@ agent2_arguments = ["Overdependence on AI can weaken thinking ability.",
                     "AI can sometimes produce incorrect or misleading results.",
                     "Excess use of AI can make a person lazy."]
 
-if rounds > len(agent1_arguments):
-    print("Rounds limit exceeded, Please enter 3 or fewer!")
-else:
-    for round_number in range(1, rounds + 1):
-        argument1 = agent1_arguments[round_number - 1]
-        argument2 = agent2_arguments[round_number - 1]
+while True:
+    topic = input("Enter the Topic name:").strip() #Eg: Does AI improve Human Productivity ?
+    if topic:
+        break
+    else:
+        print("Enter a valid topic name!")
+
+while True:
+    try:
+        rounds = int(input("Enter the number of Rounds:"))
+
+        if 0 < rounds <= len(agent1_arguments):
+            break
+        else:
+            print(f"Please enter between 1 and {len(agent1_arguments)} rounds!")
+
+    except ValueError:
+        print("Please enter a valid whole number!")
+for round_number in range(1, rounds + 1):
+    argument1 = agent1_arguments[round_number - 1]
+    argument2 = agent2_arguments[round_number - 1]
 
 
-        add_argument(agent1, argument1)
-        add_argument(agent2, argument2)
+    add_argument(agent1, argument1)
+    add_argument(agent2, argument2)
 
 print("\n" + "=" * 50)
 print("      AI Debating Agents")
