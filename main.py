@@ -9,9 +9,7 @@ def add_argument(agent, argument):
     agent["argument"].append(argument)
 
 def display_debate(agent1, agent2):
-    for round_number, argument1 in enumerate(agent1['argument'], start=1):
-        argument2 = agent2['argument'][round_number - 1]
-
+    for round_number, (first,second) in enumerate(zip(agent1['argument'], agent2['argument']), start=1):
         print(f"\n Round: {round_number}")
         print(f"{agent1['name']} - {agent1['role']}: {argument1}")
         print(f"{agent2['name']} - {agent2['role']}: {argument2}")
@@ -34,14 +32,15 @@ while True:
     else:
         print("Enter a valid topic name!")
 
+max_rounds = min(len(agent1_arguments), len(agent2_arguments))
 while True:
     try:
         rounds = int(input("Enter the number of Rounds:"))
 
-        if 0 < rounds <= len(agent1_arguments):
+        if 0 < rounds <= max_rounds:
             break
         else:
-            print(f"Please enter between 1 and {len(agent1_arguments)} rounds!")
+            print(f"Please enter between 1 and {max_rounds} rounds!")
 
     except ValueError:
         print("Please enter a valid whole number!")
