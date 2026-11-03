@@ -8,13 +8,18 @@ def create_agent(name, role):
 def add_argument(agent, argument):
     agent["argument"].append(argument)
 
-def collect_arguments(agent, rounds):
-    for round_number in range(1, rounds + 1):
+def collect_argument(agent, round_number):
+    while True:
         argument = input(
-            f"Enter argument {round_number} for {agent['name']} ({agent['role']}):"
-        )
+            f"Enter argument {round_number} for {agent['name']} ({agent['role']}): "
+        ).strip()
 
-        add_argument(agent, argument)
+        if argument:
+            break
+        else:
+            print("Argument cannot be empty. Please try again!")
+
+    add_argument(agent, argument)
 
 def display_debate(agent1, agent2):
     for round_number, (first,second) in enumerate(zip(agent1['argument'], agent2['argument']), start=1):
@@ -44,8 +49,9 @@ while True:
     except ValueError:
         print("Please enter a valid whole number!")
 
-collect_arguments(agent1, rounds)
-collect_arguments(agent2, rounds)
+for round_number in range(1, rounds + 1):
+    collect_argument(agent1, round_number)
+    collect_argument(agent2, round_number)
 
 
 print("\n" + "=" * 50)
