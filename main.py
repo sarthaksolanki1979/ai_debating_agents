@@ -27,7 +27,16 @@ def display_debate(agent1, agent2):
         print(f"{agent1['name']} - {agent1['role']}: {first}")
         print(f"{agent2['name']} - {agent2['role']}: {second}")
 
-        print(f"\nTotal debate rounds: {len(agent1['argument'])}")
+    print(f"\nTotal debate rounds: {len(agent1['argument'])}")
+
+def debate_summary(topic, rounds, agent1, agent2):
+    print("=" * 55)
+    print("                  DEBATE SUMMARY")
+    print(f"Topic name: {topic}")
+    print(f"Number of rounds: {rounds}")
+    print(f"Total arguments: {len(agent1['argument']) + len(agent2['argument'])}")
+    print(f"{agent1['name']} arguments: {len(agent1['argument'])}")
+    print(f"{agent2['name']} arguments: {len(agent2['argument'])}")
 
 agent1 = create_agent("AGENT 1", "SUPPORT")
 agent2 = create_agent("AGENT 2", "OPPOSE")
@@ -56,12 +65,13 @@ for round_number in range(1, rounds + 1):
     collect_argument(agent2, round_number)
 
 
-print("\n" + "=" * 50)
-print("      AI Debating Agents")
-print("=" * 50)
+print("\n" + "=" * 55)
+print("                 AI Debating Agents")
+print("=" * 55)
 print(f"Debate Topic: {topic}")
 print(f"Number of Rounds: {rounds}")
 
 display_debate(agent1, agent2)
+debate_summary(topic, rounds, agent1, agent2)
 
-print("=" * 50)
+print("=" * 55)
