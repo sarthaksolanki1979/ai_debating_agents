@@ -22,7 +22,7 @@ def collect_argument(agent, round_number):
     add_argument(agent, argument)
 
 def display_debate(agent1, agent2):
-    for round_number, (first,second) in enumerate(zip(agent1['argument'], agent2['argument']), start=1):
+    for round_number, (first, second) in enumerate(zip(agent1['argument'], agent2['argument']), start=1):
         print(f"\n Round: {round_number}")
         print(f"{agent1['name']} - {agent1['role']}: {first}")
         print(f"{agent2['name']} - {agent2['role']}: {second}")
@@ -38,27 +38,33 @@ def debate_summary(topic, rounds, agent1, agent2):
     print(f"{agent1['name']} arguments: {len(agent1['argument'])}")
     print(f"{agent2['name']} arguments: {len(agent2['argument'])}")
 
+def get_topic():
+    while True:
+        topic = input("Enter the topic name: ").strip()
+
+        if topic:
+            return topic
+
+        print("Enter a valid topic name!")
+
+def get_rounds():
+    while True:
+        try:
+            rounds = int(input("Enter the number of rounds: "))
+
+            if 0 < rounds <= 3:
+                return rounds
+
+            print("Please enter between 1 and 3 rounds!")
+
+        except ValueError:
+            print("Please enter a valid whole number!")
+
 agent1 = create_agent("AGENT 1", "SUPPORT")
 agent2 = create_agent("AGENT 2", "OPPOSE")
 
-while True:
-    topic = input("Enter the Topic name:").strip() #Eg: Does AI improve Human Productivity ?
-    if topic:
-        break
-    else:
-        print("Enter a valid topic name!")
-
-while True:
-    try:
-        rounds = int(input("Enter the number of Rounds:"))
-
-        if 0 < rounds <= 3:
-            break
-        else:
-            print(f"Please enter between 1 and 3 rounds!")
-
-    except ValueError:
-        print("Please enter a valid whole number!")
+topic = get_topic()
+rounds = get_rounds()
 
 for round_number in range(1, rounds + 1):
     collect_argument(agent1, round_number)
