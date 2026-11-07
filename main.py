@@ -5,6 +5,17 @@ def create_agent(name, role):
         "argument": []
     }
 
+def create_prompt(agent, topic):
+    if agent['role'] == "SUPPORT":
+        return f"""You are a debating agent named {agent['name']}.
+Your role is to SUPPORT the topic: {topic}.
+Generate strong arguments defending the topic and challenging the opposing position."""
+
+    else:
+        return f"""You are a debating agent named {agent['name']}.
+Your role is to OPPOSE the topic: {topic}.
+Generate strong arguments challenging the topic and defending the opposing position."""
+
 def add_argument(agent, argument):
     agent["argument"].append(argument)
 
@@ -47,6 +58,20 @@ def get_topic():
 
         print("Enter a valid topic name!")
 
+agent1 = create_agent("AGENT 1", "SUPPORT")
+agent2 = create_agent("AGENT 2", "OPPOSE")
+
+topic = get_topic()
+
+prompt1 = create_prompt(agent1, topic)
+prompt2 = create_prompt(agent2, topic)
+
+print("\n--- AGENT 1 PROMPT ---")
+print(prompt1)
+
+print("\n--- AGENT 2 PROMPT ---")
+print(prompt2)
+
 def get_rounds():
     while True:
         try:
@@ -60,10 +85,6 @@ def get_rounds():
         except ValueError:
             print("Please enter a valid whole number!")
 
-agent1 = create_agent("AGENT 1", "SUPPORT")
-agent2 = create_agent("AGENT 2", "OPPOSE")
-
-topic = get_topic()
 rounds = get_rounds()
 
 for round_number in range(1, rounds + 1):
