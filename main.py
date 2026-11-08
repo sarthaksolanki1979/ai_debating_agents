@@ -11,10 +11,14 @@ def create_prompt(agent, topic):
 Your role is to SUPPORT the topic: {topic}.
 Generate strong arguments defending the topic and challenging the opposing position."""
 
-    else:
+    elif agent['role'] == 'OPPOSE':
         return f"""You are a debating agent named {agent['name']}.
-Your role is to OPPOSE the topic: {topic}.
-Generate strong arguments challenging the topic and defending the opposing position."""
+        Your role is to OPPOSE the topic: {topic}.
+        Generate strong arguments challenging the topic and defending the opposing position."""
+
+    else:
+        raise ValueError("Invalid agent role!")
+
 
 def add_argument(agent, argument):
     agent["argument"].append(argument)
