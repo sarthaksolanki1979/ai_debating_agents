@@ -5,19 +5,29 @@ def create_agent(name, role):
         "argument": []
     }
 
-def create_prompt(agent, topic):
+def create_prompt(agent, topic, opposing_argument=None):
     if agent['role'] == "SUPPORT":
-        return f"""You are a debating agent named {agent['name']}.
+        prompt = f"""You are a debating agent named {agent['name']}.
 Your role is to SUPPORT the topic: {topic}.
 Generate strong arguments defending the topic and challenging the opposing position."""
 
     elif agent['role'] == 'OPPOSE':
-        return f"""You are a debating agent named {agent['name']}.
-        Your role is to OPPOSE the topic: {topic}.
-        Generate strong arguments challenging the topic and defending the opposing position."""
+        prompt = f"""You are a debating agent named {agent['name']}.
+Your role is to OPPOSE the topic: {topic}.
+Generate strong arguments challenging the topic and defending the opposing position."""
 
     else:
         raise ValueError("Invalid agent role!")
+
+    if opposing_argument is not None:
+        prompt += f"""
+
+The opposing agent presented this argument:
+{opposing_argument}
+
+Respond to this argument while defending your position."""
+
+    return prompt
 
 
 def add_argument(agent, argument):
@@ -69,6 +79,13 @@ topic = get_topic()
 
 prompt1 = create_prompt(agent1, topic)
 prompt2 = create_prompt(agent2, topic)
+
+test_argument = "AI makes people overly dependent on technology."
+
+test_prompt = create_prompt(agent1, topic, test_argument)
+
+print("\n--- TEST PROMPT ---")
+print(test_prompt)
 
 print("\n--- AGENT 1 PROMPT ---")
 print(prompt1)
