@@ -77,22 +77,6 @@ agent2 = create_agent("AGENT 2", "OPPOSE")
 
 topic = get_topic()
 
-prompt1 = create_prompt(agent1, topic)
-prompt2 = create_prompt(agent2, topic)
-
-test_argument = "AI makes people overly dependent on technology."
-
-test_prompt = create_prompt(agent1, topic, test_argument)
-
-print("\n--- TEST PROMPT ---")
-print(test_prompt)
-
-print("\n--- AGENT 1 PROMPT ---")
-print(prompt1)
-
-print("\n--- AGENT 2 PROMPT ---")
-print(prompt2)
-
 def get_rounds():
     while True:
         try:
@@ -109,8 +93,22 @@ def get_rounds():
 rounds = get_rounds()
 
 for round_number in range(1, rounds + 1):
-    collect_argument(agent1, round_number)
-    collect_argument(agent2, round_number)
+    if round_number == 1:
+        collect_argument(agent1, round_number)
+        collect_argument(agent2, round_number)
+
+    else:
+        opposing_argument1 = agent2['argument'][round_number - 2]
+        prompt1 = create_prompt(agent1, topic, opposing_argument1)
+        print(f"\n--- {agent1['name']} PROMPT---")
+        print(prompt1)
+        collect_argument(agent1, round_number)
+
+        opposing_argument2 = agent1['argument'][round_number - 2]
+        prompt2 = create_prompt(agent2, topic, opposing_argument2)
+        print(f"\n--- {agent2['name']} PROMPT---")
+        print(prompt2)
+        collect_argument(agent2, round_number)
 
 
 print("\n" + "=" * 55)
