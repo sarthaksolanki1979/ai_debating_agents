@@ -1,3 +1,41 @@
+import os
+from dotenv import load_dotenv
+from groq import Groq
+
+load_dotenv()
+
+api_key = os.getenv("GROQ_API_KEY")
+
+if not api_key:
+    raise ValueError("GROQ_API_KEY not found. Please check your .env file.")
+
+client = Groq(api_key=api_key)
+
+MODEL = "openai/gpt-oss-20b"
+
+def generate_response(prompt):
+    responses = client.chat.completions.create(
+        model=MODEL,
+        messages= [
+            {
+                'role': 'user',
+                'content': prompt
+            }
+        ]
+    )
+    return responses.choices[0].message.content
+
+def generate_agent_argument(agent, topic, opposing_argument=None):
+    prompt = create_prompt(agent, topic, opposing_argument)
+
+    print(f"\nGenerating argument for {agent['name']}...")
+
+    argument = generate_response(prompt)
+
+    add_argument(agent, argument)
+
+    return argument
+
 def create_agent(name, role):
     return {
         "name": name,
@@ -32,19 +70,6 @@ Respond to this argument while defending your position."""
 
 def add_argument(agent, argument):
     agent["argument"].append(argument)
-
-def collect_argument(agent, round_number):
-    while True:
-        argument = input(
-            f"Enter argument {round_number} for {agent['name']} ({agent['role']}): "
-        ).strip()
-
-        if argument:
-            break
-        else:
-            print("Argument cannot be empty. Please try again!")
-
-    add_argument(agent, argument)
 
 def display_debate(agent1, agent2):
     for round_number, (first, second) in enumerate(zip(agent1['argument'], agent2['argument']), start=1):
@@ -93,22 +118,17 @@ def get_rounds():
 rounds = get_rounds()
 
 for round_number in range(1, rounds + 1):
-    if round_number == 1:
-        collect_argument(agent1, round_number)
-        collect_argument(agent2, round_number)
 
-    else:
+    opposing_argument1 = None
+    opposing_argument2 = None
+
+    if round_number > 1:
         opposing_argument1 = agent2['argument'][round_number - 2]
-        prompt1 = create_prompt(agent1, topic, opposing_argument1)
-        print(f"\n--- {agent1['name']} PROMPT---")
-        print(prompt1)
-        collect_argument(agent1, round_number)
-
         opposing_argument2 = agent1['argument'][round_number - 2]
-        prompt2 = create_prompt(agent2, topic, opposing_argument2)
-        print(f"\n--- {agent2['name']} PROMPT---")
-        print(prompt2)
-        collect_argument(agent2, round_number)
+
+    generate_agent_argument(agent1, topic, opposing_argument1)
+
+    generate_agent_argument(agent2, topic, opposing_argument2)
 
 
 print("\n" + "=" * 55)
