@@ -47,12 +47,20 @@ def create_prompt(agent, topic, opposing_argument=None):
     if agent['role'] == "SUPPORT":
         prompt = f"""You are a debating agent named {agent['name']}.
 Your role is to SUPPORT the topic: {topic}.
-Generate strong arguments defending the topic and challenging the opposing position."""
+Generate strong arguments defending the topic and challenging the opposing position.
+
+Keep your argument between 150 and 200 words.
+Be clear, logical, and focused. Avoid unnecessary repetition.
+Do not invent statistics, research findings, or citations."""
 
     elif agent['role'] == 'OPPOSE':
         prompt = f"""You are a debating agent named {agent['name']}.
 Your role is to OPPOSE the topic: {topic}.
-Generate strong arguments challenging the topic and defending the opposing position."""
+Generate strong arguments challenging the topic and defending the opposing position.
+
+Keep your argument between 150 and 200 words.
+Be clear, logical, and focused. Avoid unnecessary repetition.
+Do not invent statistics, research findings, or citations."""
 
     else:
         raise ValueError("Invalid agent role!")
