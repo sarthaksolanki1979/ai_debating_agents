@@ -23,6 +23,8 @@ def generate_response(prompt):
             }
         ]
     )
+
+    print("DEBUG RESPONSE:", repr(responses.choices[0].message.content))
     return responses.choices[0].message.content
 
 def generate_agent_argument(agent, topic, opposing_argument=None):
@@ -43,27 +45,43 @@ def create_agent(name, role):
         "argument": []
     }
 
+
+
+
 def create_prompt(agent, topic, opposing_argument=None):
     if agent['role'] == "SUPPORT":
         prompt = f"""You are a debating agent named {agent['name']}.
 Your role is to SUPPORT the topic: {topic}.
-Generate strong arguments defending the topic and challenging the opposing position.
 
-Keep your argument between 150 and 200 words.
-Be clear, logical, and focused. Avoid unnecessary repetition.
-Do not invent statistics, research findings, or citations."""
+Build a strong argument defending the topic.
+Use logical reasoning and challenge the opposing position where relevant.
 
-    elif agent['role'] == 'OPPOSE':
+You must consistently defend the topic's central claim.
+Never switch sides or defend the opposing position."""
+
+    elif agent['role'] == "OPPOSE":
         prompt = f"""You are a debating agent named {agent['name']}.
 Your role is to OPPOSE the topic: {topic}.
-Generate strong arguments challenging the topic and defending the opposing position.
 
-Keep your argument between 150 and 200 words.
-Be clear, logical, and focused. Avoid unnecessary repetition.
-Do not invent statistics, research findings, or citations."""
+Build a strong argument challenging the topic.
+Defend the alternative position using logical reasoning.
+
+You must consistently argue against the topic's central claim.
+Never switch sides or defend the supporting position."""
 
     else:
         raise ValueError("Invalid agent role!")
+
+    prompt += """
+
+Maintain your assigned position throughout the entire debate.
+
+Keep your argument between 80 and 100 words.
+Use simple, direct language.
+Focus on 2 or 3 strong points.
+Avoid lengthy explanations, repetition, tables, and unnecessary headings.
+Do not invent statistics, research findings, or citations.
+Use factual claims only when you can state them reliably."""
 
     if opposing_argument is not None:
         prompt += f"""
@@ -71,7 +89,12 @@ Do not invent statistics, research findings, or citations."""
 The opposing agent presented this argument:
 {opposing_argument}
 
-Respond to this argument while defending your position."""
+Your task:
+1. Identify the opponent's most important claims.
+2. Challenge their reasoning with relevant counterarguments.
+3. Defend your assigned position using logical explanations.
+4. Avoid repeating your previous arguments.
+5. Keep your rebuttal focused on the strongest opposing claims."""
 
     return prompt
 
